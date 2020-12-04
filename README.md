@@ -71,4 +71,4 @@ We strongly recommend to refer to the paper for the details.
 * How to build and run gem5 (in SE mode)
     1. Follow steps here to build gem5 (http://learning.gem5.org/book/part1/building.html)
     2. cd gem5
-    3. Run : build/X86/gem5.opt --debug-file=<name_of_trace_file> --debug-flags=MemCtrl configs/example/se.py -c <path_to_binary> -o "<command_line_args_to_program>" --caches --l2cache (simulates a simple inorder processor with a 2 level cache hierarchy and gives us a trace of memory references going to the Memory Controller. 
+    3. Run : build/X86/gem5.opt --debug-file=<name_of_trace_file> --debug-flags=MemCtrl configs/example/se.py -c <path_to_binary> -o "<command_line_args_to_program>" --caches --l2cache (simulates a simple inorder processor with a 2 level cache hierarchy and gives us a trace of memory references going to the Memory Controller)
