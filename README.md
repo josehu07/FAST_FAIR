@@ -67,3 +67,8 @@ We strongly recommend to refer to the paper for the details.
     4. There are two versions of concurrent test programs - One is only search and only insertion, the other is a mixed workload.
         1. `./btree_concurrent -n [the # of data] -w [write latency of NVM] -i [input path] -t [the # of threads]` (e.g. ./btree -n 10000 -w 300 -i ~/input.txt -t 16)
         2. `./btree_concurrent_mixed -n [the # of data] -w [write latency of NVM] -i [input path] -t [the # of threads]` (e.g. ./btree -n 10000 -w 300 -i ~/input.txt -t 16)
+
+* How to build and run gem5 (in SE mode)
+    1. Follow steps here to build gem5 (http://learning.gem5.org/book/part1/building.html)
+    2. cd gem5
+    3. Run : build/X86/gem5.opt --debug-file=<name_of_trace_file> --debug-flags=MemCtrl configs/example/se.py -c <path_to_binary> -o "<command_line_args_to_program>" --caches --l2cache (simulates a simple inorder processor with a 2 level cache hierarchy and gives us a trace of memory references going to the Memory Controller. 
