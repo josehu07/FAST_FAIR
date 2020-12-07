@@ -1,3 +1,5 @@
+#include <papi.h>
+
 #include "btree.h"
 
 void clear_cache() {
@@ -17,7 +19,9 @@ int main(int argc, char **argv) {
   int num_data = 0;
   int n_threads = 1;
   float selection_ratio = 0.0f;
-  char *input_path = (char *)std::string("../sample_input.txt").data();
+  char *input_path = (char *) std::string("../sample_input.txt").data();
+
+  printf("\n===== B-Tree App Output =====\n\n");
 
   int c;
   while ((c = getopt(argc, argv, "n:w:t:s:i:q")) != -1) {
@@ -68,13 +72,58 @@ int main(int argc, char **argv) {
 
   ifs.close();
 
-  printf("\n===== B-Tree App Output =====\n\n");
+  // Initialize PAPI.
+  int papi_event_set = PAPI_NULL;
+  long long papi_values[2];
+
+  if (!use_quartz) {
+    if (PAPI_library_init(PAPI_VER_CURRENT) != PAPI_VER_CURRENT) {
+      std::cerr << "Error: Failed to initialize PAPI library" << std::endl;
+      return 1;
+    }
+
+    if (PAPI_create_eventset(&papi_event_set) != PAPI_OK) {
+      std::cerr << "Error: Failed to create PAPI event set" << std::endl;
+      return 1;
+    }
+
+    if (PAPI_add_event(papi_event_set, PAPI_TOT_INS) != PAPI_OK) {
+      std::cerr << "Error: Failed to add PAPI_TOT_INS event" << std::endl;
+      return 1;
+    }
+
+    if (PAPI_add_event(papi_event_set, PAPI_L3_TCM) != PAPI_OK) {
+      std::cerr << "Error: Failed to add PAPI_L3_TCM event" << std::endl;
+      return 1;
+    }
+
+    if (PAPI_start(papi_event_set) != PAPI_OK) {
+      std::cerr << "Error: Failed to start PAPI event set" << std::endl;
+      return 1;
+    }
+  }
 
   {
     clock_gettime(CLOCK_MONOTONIC, &start);
 
+    // Zero the counters.
+    if (!use_quartz) {
+      if (PAPI_reset(papi_event_set) != PAPI_OK) {
+        std::cerr << "Error: Failed to reset PAPI counters (1)" << std::endl;
+        return 1;
+      }
+    }
+
     for (int i = 0; i < num_data; ++i) {
       bt->btree_insert(keys[i], (char *)keys[i]);
+    }
+
+    // Read PAPI counters.
+    if (!use_quartz) {
+      if (PAPI_read(papi_event_set, papi_values) != PAPI_OK) {
+        std::cerr << "Error: Failed to read PAPI counters (1)" << std::endl;
+        return 1;
+      }
     }
 
     clock_gettime(CLOCK_MONOTONIC, &end);
@@ -83,8 +132,15 @@ int main(int argc, char **argv) {
                              (end.tv_nsec - start.tv_nsec);
     elapsed_time /= 1000;
 
-    printf("INSERT elapsed_time: %lld, Avg: %f\n", elapsed_time,
-           (double)elapsed_time / num_data);
+    if (use_quartz) {
+      printf("INSERT elapsed time (ns): %lld, avg: %lf\n",
+             elapsed_time,   (double) elapsed_time   / num_data);
+    } else {
+      printf("INSERT elapsed cycles:    %lld, avg: %lf\n"
+             "       num of L3 misses:  %lld, avg: %lf\n",
+             papi_values[0], (double) papi_values[0] / num_data,
+             papi_values[1], (double) papi_values[1] / num_data);
+    }
   }
 
   clear_cache();
@@ -92,8 +148,24 @@ int main(int argc, char **argv) {
   {
     clock_gettime(CLOCK_MONOTONIC, &start);
 
+    // Zero the counters.
+    if (!use_quartz) {
+      if (PAPI_reset(papi_event_set) != PAPI_OK) {
+        std::cerr << "Error: Failed to reset PAPI counters (2)" << std::endl;
+        return 1;
+      }
+    }
+
     for (int i = 0; i < num_data; ++i) {
       bt->btree_search(keys[i]);
+    }
+
+    // Read PAPI counters.
+    if (!use_quartz) {
+      if (PAPI_read(papi_event_set, papi_values) != PAPI_OK) {
+        std::cerr << "Error: Failed to read PAPI counters (2)" << std::endl;
+        return 1;
+      }
     }
 
     clock_gettime(CLOCK_MONOTONIC, &end);
@@ -102,8 +174,23 @@ int main(int argc, char **argv) {
                              (end.tv_nsec - start.tv_nsec);
     elapsed_time /= 1000;
 
-    printf("SEARCH elapsed_time: %lld, Avg: %f\n", elapsed_time,
-           (double)elapsed_time / num_data);
+    if (use_quartz) {
+      printf("SEARCH elapsed time (ns): %lld, avg: %lf\n",
+             elapsed_time,   (double) elapsed_time   / num_data);
+    } else {
+      printf("SEARCH elapsed cycles:    %lld, avg: %lf\n"
+             "       num of L3 misses:  %lld, avg: %lf\n",
+             papi_values[0], (double) papi_values[0] / num_data,
+             papi_values[1], (double) papi_values[1] / num_data);
+    }
+  }
+
+  // Stop PAPI counters.
+  if (!use_quartz) {
+    if (PAPI_stop(papi_event_set, papi_values) != PAPI_OK) {
+      std::cerr << "Error: Failed to stop PAPI event set" << std::endl;
+      return 1;
+    }
   }
 
   delete bt;

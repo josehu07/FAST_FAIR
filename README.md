@@ -9,10 +9,33 @@ Files of interest:
 - `single-full-ordering`: B-tree w/ full ordering constaints, i.e., w/o FAST optimization
 - `quartz/nvmemul.ini`: Quartz NVM emulator config file
 
+## Usage
 
-## Run with Quartz
+### Run with PAPI for L3 Misses Counting
 
-Build Quartz: please follow the instructions in README inside the `quartz/` directory.
+PAPI is used for reading hardware PMC counters. PAPI is already included in the repo. Build PAPI: please follow the instructions in INSTALL.md in the `papi/` directory.
+
+Check for available counters on your hardware platform:
+
+```bash
+sudo papi_avail
+```
+
+Make sure that `PAPI_TOT_INS` and `PAPI_L3_TCM` are available.
+
+Run the B-tree app w/o Quartz but w/ PAPI counting:
+
+```bash
+sudo ./btree -n INPUT_NUM_KEYS -i INPUT_FILE
+    # PAPI counter reading cannot be used over Quartz because the performance
+    # emulation logic will significantly affect the correct num of L3 misses.
+    # Hence, we use normal mode for PMC counting, and use Quartz for accurate
+    # latency numbers.
+```
+
+### Run over Quartz for Latency Measurements
+
+Quartz NVM emulator is already included in the repo. Build Quartz: please follow the instructions in README.md inside the `quartz/` directory.
 
 One-time load of the Quartz kernel module:
 

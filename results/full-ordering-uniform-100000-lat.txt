@@ -1,0 +1,37 @@
+Turbo Boost disabled for all CPUs
+2
+../quartz/scripts/../build/src/lib/libnvmemul.so
+../quartz/scripts/../nvmemul.ini
+
+===== B-Tree App Output =====
+
+INSERT elapsed time (ns): 271409, avg: 2.714090
+SEARCH elapsed time (ns): 13462, avg: 0.134620
+
+
+===== STATISTICS (Sun Dec  6 23:29:41 2020) =====
+
+PID: 4238
+Initialization duration: 2441563 usec
+Running threads: 0
+Terminated threads: 1
+
+== Running threads == 
+
+== Terminated threads == 
+	Thread id [4238]
+		: cpu id: 0
+		: spawn timestamp: 262610372045
+		: termination timestamp: 262610927617
+		: execution time: 555572 usecs
+		: stall cycles: 712612
+		: NVM accesses: 1850
+		: latency calculation overhead cycles: 1307187
+		: injected delay cycles: 696886
+		: injected delay in usec: 291
+		: longest epoch duration: 17664 usec
+		: shortest epoch duration: 1006 usec
+		: average epoch duration: 1082 usec
+		: number of epochs: 529
+		: epochs which didn't reach min duration: 0
+		: static epochs requested: 529
