@@ -8,7 +8,7 @@
 #define CACHE_LINE_SIZE 64
 
 #define NUM_UPDATES 100
-#define SKIP_SLOTS 32
+#define SKIP_SLOTS 64
 
 static inline void mfence() { asm volatile("mfence" ::: "memory"); }
 
@@ -41,8 +41,8 @@ static inline void clflush(char *data, int len) {
     unsigned long etsc =
         read_tsc() + (unsigned long)(write_latency_in_ns * CPU_FREQ_MHZ / 1000);
     asm volatile("clflush %0" : "+m"(*(volatile char *)ptr));
-    while (read_tsc() < etsc)
-      cpu_pause();
+    /*while (read_tsc() < etsc)
+      cpu_pause();*/
     //++clflush_cnt;
   }
   mfence();
@@ -50,7 +50,7 @@ static inline void clflush(char *data, int len) {
 
 
 int main() {
-    int arr[NUM_UPDATES * (SKIP_SLOTS + 1)];
+    char arr[NUM_UPDATES * (SKIP_SLOTS + 1)];
     unsigned long start_cycle = read_tsc();
     // Update different slots
     for (int i = 0; i < NUM_UPDATES; i++) {
