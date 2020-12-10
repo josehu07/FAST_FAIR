@@ -34,6 +34,31 @@ sudo ../quartz/scripts/runenv.sh ./btree -n INPUT_NUM_KEYS -i INPUT_FILE -q
 
 Quartz is an epoch-based emulator, where the minimal epoch duration cannot be smaller than 1ms. Hence, I believe it is encouraged to test at large scale and feed in long input streams to amortize out this bit of inaccuracy.
 
+## To build and run the YCSB with the modified kv tracer from (https://github.com/bsdinis/kvtracer)
+
+Go to YCSB dir,
+
+```bash
+cd YCSB-benchmark/YCSB/
+```
+To build the kv-tracer,
+
+```bash
+mvn -pl kvtracer -am clean package
+```
+
+To generate load file,
+```bash
+bin/ycsb load kvtracer -P workloads/workloada -p "kvtracer.tracefile=tracea_load.txt" -p "kvtracer.keymapfile=tracea_keys.txt"
+```
+To generate run file,
+```bash
+bin/ycsb run kvtracer -P workloads/workloada -p "kvtracer.tracefile=tracea_run.txt" -p "kvtracer.keymapfile=tracea_keys.txt"
+```
+
+The workload templates (for customization) and standard Workload configuration files are in the dir workloads/
+
+In the trace file 0 - READ, 1 - UPDATE, 2 - INSERT, 3 - DELETE, and the trace code can be found in this file, https://github.com/josehu07/FAST_FAIR/blob/master/YCSB-benchmark/YCSB/kvtracer/src/main/java/site/ycsb/db/KVTracerClient.java 
 
 ## Original README
 
