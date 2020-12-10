@@ -58,7 +58,7 @@ bin/ycsb run kvtracer -P workloads/workloada -p "kvtracer.tracefile=tracea_run.t
 
 The workload templates (for customization) and standard Workload configuration files are in the dir workloads/
 
-In the trace file 0 - READ, 1 - UPDATE, 2 - INSERT, 3 - DELETE, and the trace code can be found in this file, https://github.com/josehu07/FAST_FAIR/blob/master/YCSB-benchmark/YCSB/kvtracer/src/main/java/site/ycsb/db/KVTracerClient.java 
+In the trace file 0 - READ, 1 - UPDATE, 2 - INSERT, 3 - DELETE, and the trace code can be found in this [file](https://github.com/josehu07/FAST_FAIR/blob/master/YCSB-benchmark/YCSB/kvtracer/src/main/java/site/ycsb/db/KVTracerClient.java)
 
 ## Original README
 
