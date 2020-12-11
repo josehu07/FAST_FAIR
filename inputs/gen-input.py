@@ -8,6 +8,15 @@ def gen_monotonic(num_keys):
         key += random.randint(1, 10000)
         print(key)
 
+def gen_reverse(num_keys):
+    keys = []
+    key = 0
+    for i in range(num_keys):
+        key += random.randint(1, 10000)
+        keys.append(key)
+    for k in keys[::-1]:
+        print(k)
+
 def gen_uniform(num_keys):
     keys = random.sample(range(1, 2**30), num_keys)
     random.shuffle(keys)
@@ -17,7 +26,7 @@ def gen_uniform(num_keys):
 
 def print_help_message():
     print("Usage: python3 gen-input.py MODE NUM_KEYS")
-    print("  MODE      monotonic|uniform")
+    print("  MODE      monotonic|reverse|uniform")
     print("  NUM_KEYS  number of keys, should <= 100000")
 
 def main():
@@ -30,6 +39,8 @@ def main():
 
     if mode == "monotonic":
         gen_monotonic(num_keys)
+    elif mode == "reverse":
+        gen_reverse(num_keys)
     elif mode == "uniform":
         gen_uniform(num_keys)
     else:

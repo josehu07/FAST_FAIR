@@ -74,7 +74,7 @@ int main(int argc, char **argv) {
 
   // Initialize PAPI.
   int papi_event_set = PAPI_NULL;
-  long long papi_values[2];
+  long long papi_values[4];
 
   if (!use_quartz) {
     if (PAPI_library_init(PAPI_VER_CURRENT) != PAPI_VER_CURRENT) {
@@ -94,6 +94,16 @@ int main(int argc, char **argv) {
 
     if (PAPI_add_event(papi_event_set, PAPI_L3_TCM) != PAPI_OK) {
       std::cerr << "Error: Failed to add PAPI_L3_TCM event" << std::endl;
+      return 1;
+    }
+
+    if (PAPI_add_event(papi_event_set, PAPI_L3_LDM) != PAPI_OK) {
+      std::cerr << "Error: Failed to add PAPI_L3_LDM event" << std::endl;
+      return 1;
+    }
+
+    if (PAPI_add_event(papi_event_set, PAPI_L3_STM) != PAPI_OK) {
+      std::cerr << "Error: Failed to add PAPI_L3_STM event" << std::endl;
       return 1;
     }
 
@@ -137,9 +147,13 @@ int main(int argc, char **argv) {
              elapsed_time,   (double) elapsed_time   / num_data);
     } else {
       printf("INSERT elapsed cycles:    %lld, avg: %lf\n"
-             "       num of L3 misses:  %lld, avg: %lf\n",
+             "       num of L3 misses:  %lld, avg: %lf\n"
+             "        L3 load  misses:  %lld, avg: %lf\n"
+             "        L3 store misses:  %lld, avg: %lf\n",
              papi_values[0], (double) papi_values[0] / num_data,
-             papi_values[1], (double) papi_values[1] / num_data);
+             papi_values[1], (double) papi_values[1] / num_data
+             papi_values[2], (double) papi_values[2] / num_data
+             papi_values[3], (double) papi_values[3] / num_data);
     }
   }
 
@@ -179,9 +193,13 @@ int main(int argc, char **argv) {
              elapsed_time,   (double) elapsed_time   / num_data);
     } else {
       printf("SEARCH elapsed cycles:    %lld, avg: %lf\n"
-             "       num of L3 misses:  %lld, avg: %lf\n",
+             "       num of L3 misses:  %lld, avg: %lf\n"
+             "        L3 load  misses:  %lld, avg: %lf\n"
+             "        L3 store misses:  %lld, avg: %lf\n",
              papi_values[0], (double) papi_values[0] / num_data,
-             papi_values[1], (double) papi_values[1] / num_data);
+             papi_values[1], (double) papi_values[1] / num_data
+             papi_values[2], (double) papi_values[2] / num_data
+             papi_values[3], (double) papi_values[3] / num_data);
     }
   }
 

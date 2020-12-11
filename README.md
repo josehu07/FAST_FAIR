@@ -26,6 +26,8 @@ Make sure that `PAPI_TOT_INS` and `PAPI_L3_TCM` are available.
 Run the B-tree app w/o Quartz but w/ PAPI counting:
 
 ```bash
+cd single-xxx
+make
 sudo ./btree -n INPUT_NUM_KEYS -i INPUT_FILE
     # PAPI counter reading cannot be used over Quartz because the performance
     # emulation logic will significantly affect the correct num of L3 misses.
