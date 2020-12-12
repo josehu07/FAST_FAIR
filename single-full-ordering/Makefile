@@ -2,7 +2,7 @@
 .PHONY: all clean
 .DEFAULT_GOAL := all
 
-LIBS=../papi/src/libpapi.a -lrt -lm
+LIBS=../papi/src/libpapi.a -lrt -lm -lpthread
 INCLUDES=-I./include -I../papi/src/
 CFLAGS=-O3 -std=c++11
 

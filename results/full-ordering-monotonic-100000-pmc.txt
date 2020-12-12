@@ -1,7 +1,0 @@
-
-===== B-Tree App Output =====
-
-INSERT elapsed cycles:    80121523, avg: 801.215230
-       num of L3 misses:  145311, avg: 1.453110
-SEARCH elapsed cycles:    29846071, avg: 298.460710
-       num of L3 misses:  23280, avg: 0.232800

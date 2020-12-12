@@ -1,0 +1,6 @@
+
+===== B-Tree App Output =====
+
+ BTREE elapsed insts:  113954171, avg: 1139.541710
+    num of L1 misses:  1858561, avg: 18.585610
+    num of L3 misses:  1010038, avg: 10.100380

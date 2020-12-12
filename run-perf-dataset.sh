@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ORDERINGS="no-ordering fast-fair full-ordering"
-DATASETS="synth-monotonic synth-uniform synth-reverse"
+DATASETS="synth-monotonic synth-uniform synth-reverse ycsb-zipfian ycsb-exponential"
 NUM_KEYS=100000
 
 

@@ -6,7 +6,7 @@ def gen_monotonic(num_keys):
     key = 0
     for i in range(num_keys):
         key += random.randint(1, 10000)
-        print(key)
+        print("2 "+str(key))
 
 def gen_reverse(num_keys):
     keys = []
@@ -15,13 +15,13 @@ def gen_reverse(num_keys):
         key += random.randint(1, 10000)
         keys.append(key)
     for k in keys[::-1]:
-        print(k)
+        print("2 "+str(k))
 
 def gen_uniform(num_keys):
     keys = random.sample(range(1, 2**30), num_keys)
     random.shuffle(keys)
     for i in range(num_keys):
-        print(keys[i])
+        print("2 "+str(keys[i]))
 
 
 def print_help_message():
