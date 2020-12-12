@@ -17,8 +17,8 @@ class REMatcher(object):
     def group(self, i):
         return self.rematch.group(i)
 
-#filepath = 'mem_logs/mem_controller_writes.txt'
-filepath = 'memlogs_no_ordering_actual/memory_controller_output.txt'
+filepath = 'memlogs_full_order/memory_controller_output.txt'
+#filepath = 'micro/memory_controller_writes.txt'
 
 mem_ctrl_dict = dict()
 mem_control_file = open("memctrl-final.txt", "w")
@@ -32,12 +32,12 @@ with open(filepath) as fp:
 
        time = None
        cache_block = None
-       if (m.match(r".*: system.mem_ctrls: recvAtomic: WritebackDirty (.*)")):
+       if (m.match(r".*: system.mem_ctrls: recvAtomic: Write.* (.*)")):
             #print(m.group(1))
             #print(hex(int(str(m.group(1)), 16) & 0xFFFC0))
-            cache_block = hex(int(str(m.group(1)), 16))
+            cache_block = hex(int(str(m.group(1)), 16) & 0xFFFFC0)
 
-       if (m.match(r"(.*): system.mem_ctrls: recvAtomic: WritebackDirty .*")):
+       if (m.match(r"(.*): system.mem_ctrls: recvAtomic: Write.* .*")):
             #print(m.group(1))
             time = m.group(1)
        cnt += 1
@@ -52,8 +52,8 @@ with open(filepath) as fp:
           mem_control_file.write("{} {}\n".format(str(time), str(cache_block)))
 mem_control_file.close()
 
-#filepath = 'mem_logs/dcache_writes.txt'
-filepath = 'memlogs_no_ordering_actual/cache_writes.txt'
+filepath = 'memlogs_full_order/cache_writes_output.txt'
+#filepath = 'micro/cache_writes.txt'
 dcache_writes_file = open("dcache_writes.txt", "w")
 avg_volatile_time = 0
 count = 0
@@ -71,7 +71,8 @@ with open(filepath) as fp:
        if (m.match(r".* WriteReq \[(.*)\:.*\].*")):
             #print(m.group(1))
             #print(hex(int(str(m.group(1)), 16) & 0xFFFC0))
-            cache_block = hex(int(str(m.group(1)), 16) & 0xFFFC0)
+            cache_block = hex(int(str(m.group(1)), 16) & 0xFFFFC0)
+            #print(str(cache_block))
 
        if (m.match(r"(.*): WriteReq .*")):
             #print(m.group(1))
@@ -96,6 +97,8 @@ print("5th percentile of arr : ",
        np.percentile(time_diff, 5))
 print("50th percentile of arr : ", 
        np.percentile(time_diff, 50))
+print("95th percentile of arr : ",
+       np.percentile(time_diff, 95))
 print("99th percentile of arr : ",
        np.percentile(time_diff, 99))
 print("Average of arr : ",
