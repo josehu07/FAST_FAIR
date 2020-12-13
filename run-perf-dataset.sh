@@ -13,7 +13,7 @@ for ORDERING in ${ORDERINGS}; do
 
     make clean && make
 
-    for DATASET in $DATASETS; do
+    for DATASET in ${DATASETS}; do
         echo "--> Running ${ORDERING} over ${DATASET}..."
 
         # Run with PAPI
