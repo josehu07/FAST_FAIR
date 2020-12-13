@@ -1,0 +1,52 @@
+Turbo Boost disabled for all CPUs
+2
+../quartz/scripts/../build/src/lib/libnvmemul.so
+../quartz/scripts/../nvmemul.ini
+
+===== B-Tree App Output =====
+
+ BTREE elapsed time (ns) avg: 720.569000, stdev: 68.737928
+
+
+===== STATISTICS (Sat Dec 12 15:22:12 2020) =====
+
+PID: 19620
+Initialization duration: 2359552 usec
+Running threads: 0
+Terminated threads: 2
+
+== Running threads == 
+
+== Terminated threads == 
+	Thread id [19622]
+		: cpu id: 1
+		: spawn timestamp: 751759982093
+		: termination timestamp: 751761370724
+		: execution time: 1388631 usecs
+		: stall cycles: 241504
+		: NVM accesses: 665
+		: latency calculation overhead cycles: 4606255
+		: injected delay cycles: 168612
+		: injected delay in usec: 70
+		: longest epoch duration: 9600 usec
+		: shortest epoch duration: 1006 usec
+		: average epoch duration: 1044 usec
+		: number of epochs: 1329
+		: epochs which didn't reach min duration: 0
+		: static epochs requested: 1329
+	Thread id [19620]
+		: cpu id: 0
+		: spawn timestamp: 751759956047
+		: termination timestamp: 751761370847
+		: execution time: 1414800 usecs
+		: stall cycles: 1076553
+		: NVM accesses: 2965
+		: latency calculation overhead cycles: 8726126
+		: injected delay cycles: 1014907
+		: injected delay in usec: 423
+		: longest epoch duration: 17605 usec
+		: shortest epoch duration: 1017 usec
+		: average epoch duration: 1072 usec
+		: number of epochs: 1335
+		: epochs which didn't reach min duration: 0
+		: static epochs requested: 1335
