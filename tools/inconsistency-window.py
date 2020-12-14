@@ -69,6 +69,8 @@ with open(filepath) as fp:
 filepath = 'btree_inconsistency_window/list_of_sibling_header_pairs.txt'
 violation_count = 0
 total_count = 0
+total_inconsistent_time = 0
+
 with open(filepath) as fp:
    line = fp.readline()
    while line:
@@ -102,11 +104,13 @@ with open(filepath) as fp:
             #print(hdr_physical_pg)
             hdr_physical_addr = hex((int(str(hdr_physical_pg), 16) << 12) | (int(str(m.group(1)), 16) & 0x000FFF))
             hdr =  hex(int(str(hdr_physical_addr), 16) & 0xFFFFC0)
-            total_count = total_count + 1
             #print(hdr_physical_addr)
 
        sibling_time = None
        hdr_time = None
+       if str(sibling) in mem_ctrl_dict and str(hdr) in mem_ctrl_dict:
+            total_count = total_count + 1
+
        if str(sibling) in mem_ctrl_dict:
             time_list = mem_ctrl_dict[str(sibling)]
             #print(int(time))
@@ -127,8 +131,10 @@ with open(filepath) as fp:
             if res is not None:
                 #print(res)
                 hdr_time = int(res)
-       if (sibling_time is not None and hdr_time is not None and hdr_time > sibling_time):
+       if (sibling_time is not None and hdr_time is not None and hdr_time < sibling_time):
            print ("violations - hdr cacheblk- " + str(hdr) + ", sibling cacheblk- " + str(sibling)  + " time - ("+ str(hdr_time) + ", " + str(sibling_time) + ")")
+           total_inconsistent_time = total_inconsistent_time + (sibling_time - hdr_time)
            violation_count = violation_count + 1
 print("Inconsistency probability: ", violation_count/total_count)
+print("Avg inconsistent time: ", total_inconsistent_time/violation_count)
                    
