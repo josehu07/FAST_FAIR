@@ -11,7 +11,7 @@ TARGET=btree
 all: main
 
 main: src/test.cpp
-	g++ $(CFLAGS) -o btree src/test.cpp $(LIBS)
+	g++ $(CFLAGS) -o $(TARGET) src/test.cpp $(LIBS)
 
 clean: 
-	rm $(TARGET)
+	rm -f $(TARGET)

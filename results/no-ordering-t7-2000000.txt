@@ -1,0 +1,14 @@
+Turbo Boost disabled for all CPUs
+2
+../quartz/scripts/../build/src/lib/libnvmemul.so
+../quartz/scripts/../nvmemul.ini
+
+===== B-Tree App Output =====
+
+ BTREE elapsed time (ns) avg: 1127.495275, stdev: 6180.752830
+ BTREE elapsed time (ns) avg: 1090.964298, stdev: 5828.748678
+ BTREE elapsed time (ns) avg: 1105.982499, stdev: 5858.674982
+ BTREE elapsed time (ns) avg: 1077.108155, stdev: 3054.156269
+ BTREE elapsed time (ns) avg: 1118.781239, stdev: 3683.220592
+ BTREE elapsed time (ns) avg: 1013.185859, stdev: 2103.687086
+ BTREE elapsed time (ns) avg: 928.962898, stdev: 511.852370

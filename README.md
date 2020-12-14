@@ -59,6 +59,23 @@ sudo ../quartz/scripts/runenv.sh ./btree -n INPUT_NUM_KEYS -i INPUT_FILE -q
 
 Quartz is an epoch-based emulator, where the minimal epoch duration cannot be smaller than 1ms. Hence, I believe it is encouraged to test at large scale and feed in long input streams to amortize out this bit of inaccuracy.
 
+### Run Concurrent Throughput Measurements
+
+First, build Quartz memory bandwidth models by:
+
+```bash
+cd quartz/benchmark-tests
+sudo ./bandwidth-model-building.sh  # Will take ~10 min
+```
+
+Then, set `enable = false` for latency and `enable = true` for bandwidth in Quartz config file `nvmemul.ini`.
+
+```bash
+cd concurrent-xxx
+make
+sudo ../quartz/scripts/runenv.sh ./btree_concurrent -n INPUT_NUM_KEYS -i INPUT_FILE -q -c MAX_CORE_ID -t NUM_THREADS
+```
+
 
 ## Original README
 
